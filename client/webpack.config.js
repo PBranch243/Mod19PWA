@@ -20,47 +20,46 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'Webpack Plugin',
       }),
       new WebpackPwaManifest({
-          name: 'JATE',
-          short_name: 'Jate',
-          description: 'Just Another Text Editor!',
-          background_color: '#7eb4e2',
-          theme_color: '#7eb4e2',
-          start_url: './',
-          publicPath: './',
-          icons: [
-            {
-              src: path.resolve('src/images/logo.png'),
-              sizes: [96, 128, 192, 256, 384, 512],
-              destination: path.join('assets', 'icons'),
-            }
-          ],
-        }), 
-        new InjectManifest({
-          swSrc: './src-sw.js',
-          swDest: 'service-worker.js',
-        }), 
+        name: 'JATE',
+        short_name: 'Jate',
+        description: 'Just Another Text Editor!',
+        display: 'standalone',
+        background_color: '#7eb4e2',
+        theme_color: '#7eb4e2',
+        start_url: './',
+        publicPath: './',
+        fingerprints: false,
+        inject: true,
+        icons: [
+          {
+            src: path.resolve('src/images/logo.png'),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join('assets', 'icons'),
+          }
+        ],
+      }),
+      new InjectManifest({
+        swSrc: './src-sw.js',
+        swDest: 'service-worker.js',
+      }),
     ],
 
     module: {
       rules: [
-        {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: 'asset/resource',
-        },
         {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },
         {
           test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime']
             },
           },
         }
