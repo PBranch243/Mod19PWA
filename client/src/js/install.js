@@ -24,7 +24,7 @@ butInstall.addEventListener('click', async () => {
     promptEvent.prompt();
     // Log the result
     const result = await promptEvent.userChoice;
-    console.log('👍', 'userChoice', result);
+    console.log('OK', 'userChoice', result);
     // Reset the deferred prompt variable, since
     // prompt() can only be called once.
     window.deferredPrompt = null;
